@@ -1,31 +1,54 @@
 "use client";
-import React from "react";
+
 import { useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import { Button, Link } from "@radix-ui/themes";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { authenticate } from "@/app/lib/auth";
+import { useFormState } from "react-dom";
+import clsx from "clsx";
 
-const signInSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
+type SignInFormValues = {
+  email: string;
+  password: string;
+};
 
-type SignInFormValues = z.infer<typeof signInSchema>;
+const validateEmail = (email: string) => {
+  if (!email) {
+    return "Email is required";
+  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return "Invalid email address";
+  }
+  return true;
+};
+
+const validatePassword = (password: string) => {
+  if (!password) {
+    return "Password is required";
+  } else if (password.length < 6) {
+    return "Password must be at least 6 characters long";
+  }
+  return true;
+};
 
 export default function SignIn() {
-  const onSubmit = (data: SignInFormValues) => {
-    console.log(data);
+  const [errorMessage, formAction, isPending] = useFormState(
+    authenticate,
+    undefined
+  );
+
+  const onSubmit = async (data: SignInFormValues) => {
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    await formAction(formData);
   };
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm<SignInFormValues>({
-    resolver: zodResolver(signInSchema),
-  });
+    handleSubmit,
+  } = useForm<SignInFormValues>();
 
   return (
     <Tooltip.Provider>
@@ -41,7 +64,7 @@ export default function SignIn() {
                 <input
                   className="box-border m-0 py-2.5 px-4 bg-white text-black outline-transparent outline-2 outline-offset-2 w-full text-xs border"
                   type="email"
-                  {...register("email")}
+                  {...register("email", { validate: validateEmail })}
                 />
               </Tooltip.Trigger>
               {errors.email && (
@@ -66,7 +89,7 @@ export default function SignIn() {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <input
-                  {...register("password")}
+                  {...register("password", { validate: validatePassword })}
                   type="password"
                   className="box-border m-0 py-2.5 px-4 bg-white text-black outline-transparent outline-2 outline-offset-2 w-full text-xs border"
                 />
@@ -90,11 +113,15 @@ export default function SignIn() {
             variant="solid"
             color="green"
             className="w-full bg-emerald-600 hover:bg-emerald-700 uppercase font-semi-bold text-xxs"
+            disabled={isPending}
           >
             Sign In
           </Button>
         </Form.Submit>
       </Form.Root>
+      <p className={clsx("text-danger", { hidden: !errorMessage })}>
+        Invalid credentials.
+      </p>
       <div className="mt-4 text-center text-black">
         {"Don't have an account?"}
         <Link href="/sign-up" className="text-green-500 hover:underline">
