@@ -31,6 +31,9 @@ const config: Config = {
       minWidth: {
         "3/4": "75%",
       },
+      colors: {
+        danger: "#e3342f",
+      },
     },
   },
   plugins: [],
