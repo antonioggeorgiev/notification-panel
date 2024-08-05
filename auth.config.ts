@@ -14,13 +14,6 @@ export const authConfig = {
       }
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      console.log(url);
-      if (url.startsWith(baseUrl)) {
-        return url;
-      }
-      return baseUrl;
-    },
   },
   providers: [],
 } satisfies NextAuthConfig;
