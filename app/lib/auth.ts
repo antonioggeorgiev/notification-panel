@@ -7,9 +7,7 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    formData.append("callbackUrl", `${window.location.origin}/`);
-
-    await signIn("credentials", formData);
+    await signIn("signin", formData);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
