@@ -7,12 +7,20 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isProtectedPage = nextUrl.pathname === "/";
+      const isProtectedPage = nextUrl.pathname === "/notifications";
       if (isProtectedPage) {
         if (isLoggedIn) return true;
         return false;
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL("/notifications", nextUrl));
       }
       return true;
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      return baseUrl;
     },
   },
   providers: [],
