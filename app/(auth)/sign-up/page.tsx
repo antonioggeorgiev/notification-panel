@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import { Button, Flex, Link } from "@radix-ui/themes";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import clsx from "clsx";
 
 const signUpSchema = z.object({
   firstname: z.string().min(1, "First name is required"),
@@ -17,9 +20,25 @@ const signUpSchema = z.object({
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export default function SignUp() {
-  const onSubmit = (data: SignUpFormValues) => {
-    console.log(data);
+  const [signUpError, setSignUpError] = useState<string>();
+  const router = useRouter();
+  const onSubmit = async (data: SignUpFormValues) => {
+    const response = await fetch("/api/auth/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      router.push("/sign-in");
+    } else {
+      const data = await response.json();
+      setSignUpError(data.message);
+    }
   };
+
   const {
     register,
     handleSubmit,
@@ -136,7 +155,9 @@ export default function SignUp() {
             </Tooltip.Root>
           </Form.Control>
         </Form.Field>
-
+        <p className={clsx("text-danger", { hidden: !signUpError })}>
+          {signUpError}
+        </p>
         <Form.Submit asChild className="mt-2">
           <Button
             type="submit"
