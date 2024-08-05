@@ -96,7 +96,7 @@ export default function SignIn() {
         </Form.Submit>
       </Form.Root>
       <div className="mt-4 text-center text-black">
-        Don't have an account?{" "}
+        {"Don't have an account?"}
         <Link href="/sign-up" className="text-green-500 hover:underline">
           Sign up
         </Link>
