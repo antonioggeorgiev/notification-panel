@@ -38,10 +38,23 @@ export default function SignIn() {
   );
 
   const onSubmit = async (data: SignInFormValues) => {
-    const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    await formAction(formData);
+    const response = await fetch('/api/auth/sign-in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    });
+
+    if (response.ok) {
+      window.location.href = '/'; // Redirect to a protected page after successful sign-in
+    } else {
+      // const data = await response.json();
+      // console.error(data.message);
+    }
   };
 
   const {
