@@ -12,5 +12,5 @@ export async function POST(req: NextRequest) {
         );
     }
     await authenticate('', body);
-    return NextResponse.json({ message: 'Signed out' }, { status: 200 });
+    return NextResponse.json({ message: 'Signed in' }, { status: 200 });
 }
