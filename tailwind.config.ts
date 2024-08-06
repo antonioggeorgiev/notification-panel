@@ -35,7 +35,9 @@ const config: Config = {
         danger: "#e3342f",
         sidebar: "#202123",
         dashboard: "#343541",
-        "bg-dirty-white": "f8f8ff"
+        "gray-500": "#2c2d36",
+        "gray-300": "#4a4b5b",
+        "bg-dirty-white": "f8f8ff",
       },
     },
   },
