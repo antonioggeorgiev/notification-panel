@@ -8,7 +8,6 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import clsx from "clsx";
 
 const signUpSchema = z.object({
   firstname: z.string().min(1, "First name is required"),
@@ -21,8 +20,11 @@ type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export default function SignUp() {
   const [signUpError, setSignUpError] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
+  
   const onSubmit = async (data: SignUpFormValues) => {
+    setIsSubmitting(true);
     const response = await fetch("/api/auth/sign-up", {
       method: "POST",
       headers: {
@@ -34,9 +36,10 @@ export default function SignUp() {
     if (response.ok) {
       router.push("/sign-in");
     } else {
-      const data = await response.json();
-      setSignUpError(data.message);
+      const responseData = await response.json();
+      setSignUpError(responseData.message);
     }
+    setIsSubmitting(false);
   };
 
   const {
@@ -50,7 +53,7 @@ export default function SignUp() {
   return (
     <Tooltip.Provider>
       <Form.Root onSubmit={handleSubmit(onSubmit)}>
-        <Flex gap={"1"}>
+        <Flex gap="1">
           <Form.Field name="firstname">
             <Form.Label>First Name</Form.Label>
             <Form.Control asChild>
@@ -74,10 +77,8 @@ export default function SignUp() {
               </Tooltip.Root>
             </Form.Control>
           </Form.Field>
-          <Form.Field
-            name="lastname"
-            className="box-border flex flex-col items-stretch justify-start relative flex-1"
-          >
+          
+          <Form.Field name="lastname">
             <Form.Label>Last Name</Form.Label>
             <Form.Control asChild>
               <Tooltip.Root>
@@ -102,10 +103,7 @@ export default function SignUp() {
           </Form.Field>
         </Flex>
 
-        <Form.Field
-          name="email"
-          className="box-border flex flex-col items-stretch justify-start relative flex-1"
-        >
+        <Form.Field name="email">
           <Form.Label>Email</Form.Label>
           <Form.Control asChild>
             <Tooltip.Root>
@@ -129,10 +127,7 @@ export default function SignUp() {
           </Form.Control>
         </Form.Field>
 
-        <Form.Field
-          name="password"
-          className="box-border flex flex-col items-stretch justify-start relative flex-1"
-        >
+        <Form.Field name="password">
           <Form.Label>Password</Form.Label>
           <Form.Control asChild>
             <Tooltip.Root>
@@ -155,20 +150,26 @@ export default function SignUp() {
             </Tooltip.Root>
           </Form.Control>
         </Form.Field>
-        <p className={clsx("text-danger", { hidden: !signUpError })}>
-          {signUpError}
-        </p>
+        
+        {signUpError && (
+          <p className="text-red-500 mt-2">
+            {signUpError}
+          </p>
+        )}
+        
         <Form.Submit asChild className="mt-2">
           <Button
             type="submit"
             variant="solid"
             color="green"
             className="w-full bg-emerald-600 hover:bg-emerald-700 uppercase font-semi-bold text-xxs"
+            disabled={isSubmitting}
           >
             Continue
           </Button>
         </Form.Submit>
       </Form.Root>
+      
       <div className="mt-4 text-center text-black">
         Have an account?
         <Link href="/sign-in" className="text-green-500 hover:underline">
