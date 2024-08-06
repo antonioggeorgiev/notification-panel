@@ -33,6 +33,8 @@ const config: Config = {
       },
       colors: {
         danger: "#e3342f",
+        sidebar: "#202123",
+        dashboard: "#343541",
       },
     },
   },
