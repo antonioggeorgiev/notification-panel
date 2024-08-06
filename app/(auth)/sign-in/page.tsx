@@ -38,7 +38,7 @@ export default function SignIn() {
   );
 
   const onSubmit = async (data: SignInFormValues) => {
-    const response = await fetch('/api/auth/sign-in', {
+    const response = await fetch('/api/auth/callback/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
