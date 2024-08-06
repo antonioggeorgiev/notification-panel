@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import prisma from "@/app/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -52,7 +51,10 @@ export async function POST(req: NextRequest) {
     } else {
       console.error("An unexpected error occurred:", error);
       return NextResponse.json(
-        { message: "Internal server error", error: 'An unexpected error occurred' },
+        {
+          message: "Internal server error",
+          error: "An unexpected error occurred",
+        },
         { status: 500 }
       );
     }

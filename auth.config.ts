@@ -17,6 +17,15 @@ export const authConfig = {
     async redirect({ baseUrl }) {
       return baseUrl;
     },
+    async session({ session, token }) {
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+    async jwt({ token }) {
+      return token;
+    },
   },
   providers: [],
 } satisfies NextAuthConfig;
