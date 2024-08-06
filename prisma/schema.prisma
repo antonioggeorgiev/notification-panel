@@ -19,10 +19,30 @@ enum Role {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  firstname String
-  lastname  String
-  email     String  @unique
-  password  String
-  role      Role    @default(TEAM_GPT_MEMBER)
+  id           Int            @id @default(autoincrement())
+  firstname    String
+  lastname     String
+  email        String         @unique
+  password     String
+  role         Role           @default(TEAM_GPT_MEMBER)
+  Notification Notification[]
+}
+
+model Notification {
+  id      String           @id @default(cuid())
+  userId  Int
+  user    User             @relation(fields: [userId], references: [id])
+  type    NotificationType
+  message String
+  url     String
+  read    Boolean          @default(false)
+
+  @@index([userId])
+}
+
+enum NotificationType {
+  PLATFORM_UPDATE
+  COMMENT_TAG
+  ACCESS_GRANTED
+  JOIN_WORKSPACE
 }
