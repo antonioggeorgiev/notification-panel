@@ -85,99 +85,109 @@ const NotificationForm: React.FC<{ onSubmitAdditionalLogic: () => void }> = ({
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)} className={styles.formRoot}>
-      <Form.Field className={styles.formField} name="notificationType">
-        <Form.Label className={styles.formLabel}>Notification Type</Form.Label>
-        <Select.Root
-          onValueChange={(value) =>
-            setValue("notificationType", value as NotificationType)
-          }
-        >
-          <Select.Trigger className={styles.selectTrigger}>
-            <Select.Value placeholder="Select a type" />
-          </Select.Trigger>
-          <Select.Content className={styles.selectContent}>
-            {Object.values(NotificationType).map((notification) => (
-              <Select.Item
-                key={notification}
-                value={notification}
-                className={styles.selectItem}
-              >
-                <Select.ItemText>
-                  <div className="flex items-center justify-between">
-                    {notificationSpecs[notification].name}
-                    <InfoCircledIcon
-                      width={"30px"}
-                      className={`text-${notificationSpecs[notification].color}`}
-                    />
-                  </div>
-                </Select.ItemText>
-              </Select.Item>
-            ))}
-          </Select.Content>
-        </Select.Root>
-        {errors.notificationType && (
-          <Tooltip.Root>
-            <Tooltip.Trigger>
-              <span className={styles.errorText}>
+      <Tooltip.Provider>
+        <Form.Field className={styles.formField} name="notificationType">
+          <Form.Label className={styles.formLabel}>
+            Notification Type
+          </Form.Label>
+          <Select.Root
+            onValueChange={(value) =>
+              setValue("notificationType", value as NotificationType)
+            }
+          >
+            <Select.Trigger className={styles.selectTrigger}>
+              <Select.Value placeholder="Select a type" />
+            </Select.Trigger>
+            <Select.Content className={styles.selectContent}>
+              {Object.values(NotificationType).map((notification) => (
+                <Select.Item
+                  key={notification}
+                  value={notification}
+                  className={styles.selectItem}
+                >
+                  <Select.ItemText>
+                    <div className="flex items-center justify-between">
+                      {notificationSpecs[notification].name}
+                      <InfoCircledIcon
+                        width={"30px"}
+                        className={`text-${notificationSpecs[notification].color}`}
+                      />
+                    </div>
+                  </Select.ItemText>
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+          {errors.notificationType && (
+            <Tooltip.Root>
+              <Tooltip.Trigger>
+                <span className={styles.errorText}>
+                  {errors.notificationType.message?.toString()}
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Content side="bottom" className={styles.tooltipContent}>
                 {errors.notificationType.message?.toString()}
-              </span>
-            </Tooltip.Trigger>
-            <Tooltip.Content side="bottom" className={styles.tooltipContent}>
-              {errors.notificationType.message?.toString()}
-              <Tooltip.Arrow className="fill-current text-red-500" />
-            </Tooltip.Content>
-          </Tooltip.Root>
-        )}
-      </Form.Field>
+                <Tooltip.Arrow className="fill-current text-red-500" />
+              </Tooltip.Content>
+            </Tooltip.Root>
+          )}
+        </Form.Field>
 
-      {notificationType === NotificationType.PLATFORM_UPDATE && (
-        <Form.Field className={styles.formField} name="releaseNumber">
-          <Form.Label className={styles.formLabel}>Release Number</Form.Label>
-          <input
-            type="text"
-            {...register("releaseNumber")}
-            className={styles.input}
-          />
-          {errors.releaseNumber && (
-            <Tooltip.Root>
-              <Tooltip.Trigger>
-                <span className={styles.errorText}>
+        {notificationType === NotificationType.PLATFORM_UPDATE && (
+          <Form.Field className={styles.formField} name="releaseNumber">
+            <Form.Label className={styles.formLabel}>Release Number</Form.Label>
+            <input
+              type="text"
+              {...register("releaseNumber")}
+              className={styles.input}
+            />
+            {errors.releaseNumber && (
+              <Tooltip.Root>
+                <Tooltip.Trigger>
+                  <span className={styles.errorText}>
+                    {errors.releaseNumber.message?.toString()}
+                  </span>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  side="bottom"
+                  className={styles.tooltipContent}
+                >
                   {errors.releaseNumber.message?.toString()}
-                </span>
-              </Tooltip.Trigger>
-              <Tooltip.Content side="bottom" className={styles.tooltipContent}>
-                {errors.releaseNumber.message?.toString()}
-                <Tooltip.Arrow className="fill-current text-red-500" />
-              </Tooltip.Content>
-            </Tooltip.Root>
-          )}
-        </Form.Field>
-      )}
+                  <Tooltip.Arrow className="fill-current text-red-500" />
+                </Tooltip.Content>
+              </Tooltip.Root>
+            )}
+          </Form.Field>
+        )}
 
-      {notificationType !== NotificationType.PLATFORM_UPDATE && (
-        <Form.Field className={styles.formField} name="name">
-          <Form.Label className={styles.formLabel}>Name</Form.Label>
-          <input type="text" {...register("name")} className={styles.input} />
-          {errors.name && (
-            <Tooltip.Root>
-              <Tooltip.Trigger>
-                <span className={styles.errorText}>
+        {notificationType !== NotificationType.PLATFORM_UPDATE && (
+          <Form.Field className={styles.formField} name="name">
+            <Form.Label className={styles.formLabel}>Name</Form.Label>
+            <input type="text" {...register("name")} className={styles.input} />
+            {errors.name && (
+              <Tooltip.Root>
+                <Tooltip.Trigger>
+                  <span className={styles.errorText}>
+                    {errors.name.message?.toString()}
+                  </span>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  side="bottom"
+                  className={styles.tooltipContent}
+                >
                   {errors.name.message?.toString()}
-                </span>
-              </Tooltip.Trigger>
-              <Tooltip.Content side="bottom" className={styles.tooltipContent}>
-                {errors.name.message?.toString()}
-                <Tooltip.Arrow className="fill-current text-red-500" />
-              </Tooltip.Content>
-            </Tooltip.Root>
-          )}
-        </Form.Field>
-      )}
-      <Form.Submit asChild>
-        <button type="submit" className={styles.submitButton}>
-          Submit
-        </button>
-      </Form.Submit>
+                  <Tooltip.Arrow className="fill-current text-red-500" />
+                </Tooltip.Content>
+              </Tooltip.Root>
+            )}
+          </Form.Field>
+        )}
+        <Form.Submit asChild>
+          <button type="submit" className={styles.submitButton}>
+            Submit
+          </button>
+        </Form.Submit>
+      </Tooltip.Provider>
     </Form.Root>
   );
 };
