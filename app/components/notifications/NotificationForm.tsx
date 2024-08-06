@@ -84,8 +84,8 @@ const NotificationForm: React.FC<{ onSubmitAdditionalLogic: () => void }> = ({
   };
 
   return (
-    <Form.Root onSubmit={handleSubmit(onSubmit)} className={styles.formRoot}>
-      <Tooltip.Provider>
+    <Tooltip.Provider>
+      <Form.Root onSubmit={handleSubmit(onSubmit)} className={styles.formRoot}>
         <Form.Field className={styles.formField} name="notificationType">
           <Form.Label className={styles.formLabel}>
             Notification Type
@@ -187,8 +187,8 @@ const NotificationForm: React.FC<{ onSubmitAdditionalLogic: () => void }> = ({
             Submit
           </button>
         </Form.Submit>
-      </Tooltip.Provider>
-    </Form.Root>
+      </Form.Root>
+    </Tooltip.Provider>
   );
 };
 
