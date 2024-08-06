@@ -5,7 +5,6 @@ import { Theme } from "@radix-ui/themes";
 import "./globals.css";
 import "tailwindcss/tailwind.css";
 import { SessionProvider } from "next-auth/react";
-import { Navigation } from "./components/navigation/Navigation";
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 
@@ -25,7 +24,6 @@ export default function RootLayout({
         <Theme>
           <SessionProvider>
             <div className="flex flex-col	w-full h-screen bg-dashboard text-white">
-              <Navigation />
               {children}
             </div>
           </SessionProvider>

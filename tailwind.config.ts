@@ -56,7 +56,7 @@ const config: Config = {
         dashboard: "#343541",
         "gray-500": "#2c2d36",
         "gray-300": "#4a4b5b",
-        "bg-dirty-white": "f8f8ff",
+        "dirty-white": "#f8f8ff",
         "green-400": "#01b694",
         primary: {
           light: "#6C63FF",

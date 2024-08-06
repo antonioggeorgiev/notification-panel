@@ -10,14 +10,12 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <Flex className="h-screen">
       <Flex
-        className="w-full bg-dirty-white"
+        className="w-full bg-dirty-white text-black"
         align="center"
         justify="center"
         direction="column"
       >
-        <Box className="w-[75%] max-w-[400px]">
-          {children}
-        </Box>
+        <Box className="w-[75%] max-w-[400px]">{children}</Box>
       </Flex>
       <Flex
         className="hidden md:flex w-full bg-gradient-to-br from-emerald-500 to-emerald-900"
