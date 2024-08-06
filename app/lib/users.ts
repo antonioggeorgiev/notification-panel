@@ -1,6 +1,4 @@
 import { PrismaClient, User } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
 
