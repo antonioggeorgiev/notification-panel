@@ -14,13 +14,9 @@ export const authConfig = {
       }
       return true;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       return baseUrl;
     },
-    signIn() {
-      return "/";
-    }
-
   },
   providers: [],
 } satisfies NextAuthConfig;
