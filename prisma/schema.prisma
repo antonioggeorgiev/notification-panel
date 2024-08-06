@@ -34,7 +34,6 @@ model Notification {
   user    User             @relation(fields: [userId], references: [id])
   type    NotificationType
   message String
-  url     String
   read    Boolean          @default(false)
 
   @@index([userId])
