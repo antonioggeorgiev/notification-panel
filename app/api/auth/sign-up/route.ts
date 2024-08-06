@@ -5,17 +5,16 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { email, password, firstname, lastname } = body;
-
-  if (!email || !password || !firstname || !lastname) {
-    return NextResponse.json(
-      { message: "Missing required fields" },
-      { status: 400 }
-    );
-  }
-
   try {
+    const body = await req.json();
+    const { email, password, firstname, lastname } = body;
+
+    if (!email || !password || !firstname || !lastname) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -42,11 +41,22 @@ export async function POST(req: NextRequest) {
       { message: "User created", user },
       { status: 201 }
     );
-  } catch (error) {
-    console.error("Error creating user:", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    // Refined error handling
+    if (error instanceof Error) {
+      console.error("Error creating user:", error.message);
+      return NextResponse.json(
+        { message: "Internal server error", error: error.message },
+        { status: 500 }
+      );
+    } else {
+      console.error("An unexpected error occurred:", error);
+      return NextResponse.json(
+        { message: "Internal server error", error: 'An unexpected error occurred' },
+        { status: 500 }
+      );
+    }
+  } finally {
+    await prisma.$disconnect();
   }
 }
