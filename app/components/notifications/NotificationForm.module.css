@@ -1,0 +1,82 @@
+.formRoot {
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 0.375rem;
+    max-width: 28rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .formField {
+    margin-bottom: 1rem;
+  }
+  
+  .formLabel {
+    display: block;
+    color: #4a5568; /* gray-700 */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .selectTrigger {
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .selectContent {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    margin-top: 0.25rem;
+  }
+  
+  .selectItem {
+    display: flex;
+    width: 100%;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .selectItem:hover {
+    background-color: #f0f0f0; /* light gray */
+  }
+  
+  .errorText {
+    color: #f56565; /* red-500 */
+    margin-top: 0.25rem;
+  }
+  
+  .submitButton {
+    background-color: #4299e1; /* blue-500 */
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    margin-left: auto;
+    transition: background-color 0.2s;
+  }
+  
+  .submitButton:hover {
+    background-color: #3182ce; /* blue-600 */
+  }
+ 
+  .tooltipContent {
+    background-color: #f56565; /* red-500 */
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    z-index: 50;
+  }
+  

@@ -2,13 +2,13 @@ import React, { ReactNode } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { IconProps } from "@radix-ui/themes";
 
-interface NavigationButtonProps {
+interface NavigationDropdownProps {
   icon: React.FC<IconProps>;
   ariaLabel: string;
   children: ReactNode;
 }
 
-const NavigationButton: React.FC<NavigationButtonProps> = ({
+const NavigationDropdown: React.FC<NavigationDropdownProps> = ({
   icon: Icon,
   ariaLabel,
   children,
@@ -24,8 +24,9 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
     </DropdownMenu.Trigger>
     <DropdownMenu.Portal>
       <DropdownMenu.Content
-        className="min-w-[120px] bg-white rounded-sm p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
+        className="min-w-[120px] bg-white rounded-sm shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
         sideOffset={5}
+        aria-label={`${ariaLabel} Dropdown Menu`} // Improved accessibility
       >
         {children}
         <DropdownMenu.Arrow className="fill-white" />
@@ -34,4 +35,4 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
   </DropdownMenu.Root>
 );
 
-export default NavigationButton;
+export default React.memo(NavigationDropdown);

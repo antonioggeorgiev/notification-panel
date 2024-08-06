@@ -1,38 +1,34 @@
 "use client";
 import React from "react";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { GearIcon, BellIcon, ExitIcon } from "@radix-ui/react-icons";
-import UserAvatar from "@/app/components/navigation/UserAvatar";
-import NavigationButton from "@/app/components/navigation/NavigationButton";
-import DropdownItem from "@/app/components/navigation/DropdownItem";
+import { GearIcon, ExitIcon } from "@radix-ui/react-icons";
 import useSignOut from "@/app/hooks/useSignOut";
+import UserAvatar from "../shared/UserAvatar";
+import DropdownItem from "../shared/DropdownItem";
+import NavigationDropdown from "./NavigationDropdown";
+import NotificationDropdown from "../notifications/NotificationDropdown";
 
 export function Navigation() {
   const signOut = useSignOut();
 
   return (
     <NavigationMenu.Root>
-      <NavigationMenu.List className="flex min-h-[2.5rem] w-full flex-row items-center justify-between gap-3 bg-sidebar px-2 py-1 text-white">
+      <NavigationMenu.List className="flex min-h-[2.5rem] w-full flex-row items-center justify-between gap-3 bg-sidebar py-1 text-white">
         <NavigationMenu.Item>
-          <UserAvatar
-            src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-            fallbackText="CT"
-          />
+          <UserAvatar src="/user.png" fallbackText="User" />
         </NavigationMenu.Item>
         <div className="flex gap-3">
           <NavigationMenu.Item>
-            <NavigationButton icon={BellIcon} ariaLabel="Notifications">
-              <DropdownItem label="Notifications" icon={ExitIcon} />
-            </NavigationButton>
+            <NotificationDropdown />
           </NavigationMenu.Item>
           <NavigationMenu.Item>
-            <NavigationButton icon={GearIcon} ariaLabel="Settings">
+            <NavigationDropdown icon={GearIcon} ariaLabel="Settings">
               <DropdownItem
-                label="Settings"
+                label="Sign Out"
                 icon={ExitIcon}
                 onClick={signOut}
               />
-            </NavigationButton>
+            </NavigationDropdown>
           </NavigationMenu.Item>
         </div>
       </NavigationMenu.List>

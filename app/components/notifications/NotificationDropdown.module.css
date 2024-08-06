@@ -1,0 +1,20 @@
+.notifyButton {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    color: gray;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    padding: 1rem;
+    margin-right: 0.5rem;
+  }
+  
+  .notifyButton:hover {
+    background-color: #f0f0f0; /* light gray */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
