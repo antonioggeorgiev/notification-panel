@@ -5,50 +5,35 @@ import * as Form from "@radix-ui/react-form";
 import { Button, Link } from "@radix-ui/themes";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { authenticate } from "@/app/lib/auth";
-import { useFormState } from "react-dom";
 import clsx from "clsx";
+import { validateEmail, validatePassword } from "@/app/lib/validation"; // Assuming validation functions are exported from a separate file
+import { useState } from "react";
 
 type SignInFormValues = {
   email: string;
   password: string;
 };
 
-const validateEmail = (email: string) => {
-  if (!email) {
-    return "Email is required";
-  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-    return "Invalid email address";
-  }
-  return true;
-};
-
-const validatePassword = (password: string) => {
-  if (!password) {
-    return "Password is required";
-  } else if (password.length < 6) {
-    return "Password must be at least 6 characters long";
-  }
-  return true;
-};
-
 export default function SignIn() {
-  const [errorMessage, formAction, isPending] = useFormState(
-    authenticate,
-    undefined
-  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+
+  const { register, formState: { errors }, handleSubmit } = useForm<SignInFormValues>();
 
   const onSubmit = async (data: SignInFormValues) => {
-    const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    await formAction(formData);
-  };
+    setIsPending(true);
+    try {
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<SignInFormValues>();
+      await authenticate(formData);
+    } catch (error) {
+      setErrorMessage("Invalid credentials.");
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
     <Tooltip.Provider>
@@ -120,7 +105,7 @@ export default function SignIn() {
         </Form.Submit>
       </Form.Root>
       <p className={clsx("text-danger", { hidden: !errorMessage })}>
-        Invalid credentials.
+        {errorMessage}
       </p>
       <div className="mt-4 text-center text-black">
         {"Don't have an account?"}

@@ -20,6 +20,10 @@ export const authConfig = {
       }
       return baseUrl;
     },
+    signIn() {
+      return "/";
+    }
+
   },
   providers: [],
 } satisfies NextAuthConfig;
