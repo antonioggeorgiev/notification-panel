@@ -22,11 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Theme>
-          <SessionProvider>
             <div className="flex flex-col	w-full h-screen bg-dashboard text-white">
               {children}
             </div>
-          </SessionProvider>
         </Theme>
       </body>
     </html>
