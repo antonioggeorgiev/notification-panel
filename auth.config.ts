@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { use } from "react";
 
 export const authConfig = {
   pages: {
@@ -14,7 +15,12 @@ export const authConfig = {
       }
       return true;
     },
-    async redirect({ baseUrl }) {
+    async signIn({ user, account, profile }) {
+      return true;
+    },
+    async redirect({ baseUrl, url }) {
+      console.log(baseUrl, url);
+      if (url.endsWith("/sign-in")) return url;
       return baseUrl;
     },
     async session({ session, token }) {

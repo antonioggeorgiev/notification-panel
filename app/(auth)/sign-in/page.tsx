@@ -8,6 +8,7 @@ import { authenticate } from "@/app/lib/auth";
 import clsx from "clsx";
 import { validateEmail, validatePassword } from "@/app/lib/validation"; // Assuming validation functions are exported from a separate file
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type SignInFormValues = {
   email: string;
@@ -17,8 +18,13 @@ type SignInFormValues = {
 export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
 
-  const { register, formState: { errors }, handleSubmit } = useForm<SignInFormValues>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<SignInFormValues>();
 
   const onSubmit = async (data: SignInFormValues) => {
     setIsPending(true);
@@ -28,6 +34,7 @@ export default function SignIn() {
       formData.append("password", data.password);
 
       await authenticate(formData);
+      router.push("/");
     } catch (error) {
       setErrorMessage("Invalid credentials.");
     } finally {
