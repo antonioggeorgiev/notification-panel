@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST() {
   try {
-    await signOut({ 'redirect': false });
+    await signOut({ redirectTo: "/sign-in" });
     const session = await auth();
 
     if (session) {
