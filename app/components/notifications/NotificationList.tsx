@@ -1,10 +1,18 @@
 import React from "react";
 import NotificationComponent from "./NotificationComponent";
-import { Box } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import { useNotificationContext } from "@/app/context/NotificationContext";
 
 const NotificationList = () => {
   const { notifications } = useNotificationContext();
+  console.log(notifications);
+  if (notifications.length === 0) {
+    return (
+      <Flex align={"center"}>
+        <p>No unread notifications currently.</p>
+      </Flex>
+    );
+  }
 
   return (
     <Box className="overflow-auto w-[100%]">
