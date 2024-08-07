@@ -1,11 +1,12 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function POST() {
   try {
+    signOut({ 'redirect': false });
     const session = await auth();
+
     if (session) {
-      // Invalidate the session here if needed
       return NextResponse.json({ message: "Signed out" }, { status: 200 });
     } else {
       return NextResponse.json(

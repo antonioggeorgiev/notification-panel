@@ -1,17 +1,11 @@
+'use client'
 import { useCallback } from "react";
+import { signOut as nextAuthSignOut } from "next-auth/react";
 
 const useSignOut = () => {
   const handleSignOut = useCallback(async () => {
-    const response = await fetch("/api/auth/sign-out", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    });
-    if (response.ok) {
-      window.location.href = "/sign-in";
-    }
+
+    await nextAuthSignOut({callbackUrl: '/sign-in'}) 
   }, []);
 
   return handleSignOut;

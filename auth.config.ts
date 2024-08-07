@@ -1,5 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
-import { use } from "react";
+
+const protectedPages = ["/", '/comments', '/workspace', '/chats'];
 
 export const authConfig = {
   pages: {
@@ -8,7 +9,7 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isProtectedPage = nextUrl.pathname === "/";
+      const isProtectedPage = protectedPages.includes(nextUrl.pathname);
       if (isProtectedPage) {
         if (isLoggedIn) return true;
         return false;
@@ -19,7 +20,6 @@ export const authConfig = {
       return true;
     },
     async redirect({ baseUrl, url }) {
-      console.log(baseUrl, url);
       if (url.endsWith("/sign-in")) return url;
       return baseUrl;
     },
